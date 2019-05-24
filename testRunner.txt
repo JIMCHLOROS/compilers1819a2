@@ -1,0 +1,6 @@
+a = 0101101
+b = 1010101
+print a
+print b
+print a or b
+print a xor b

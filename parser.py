@@ -134,7 +134,7 @@ class myParser:
 
 
 parser = myParser()
-with open("test.txt") as fp:
+with open("testParser.txt") as fp:
     parser.parse(fp)
 
 """

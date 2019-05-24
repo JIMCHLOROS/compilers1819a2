@@ -98,7 +98,7 @@ class myParser:
             while self.LA == "or":
                 self.match("or")
                 f2 = self.factor()
-                f = f | f2
+                f |= f2
             if self.LA in ("xor", "id", "print", ")", None):
                 return f
             raise ParseError("Didnt get what i was expecting!")
@@ -131,13 +131,13 @@ class myParser:
                 return self.ST[varname]
             raise RunError("Didn't find the value in the Dictionary.")
         elif self.LA == "binary":
-            value = float(self.TEXT)
+            value = self.TEXT
             self.match("binary")
-            return value
+            return int(value, 2)
         else:
             raise ParseError("Didnt get what i was expecting!")
 
 
 parser = myParser()
-with open("test.txt") as fp:
+with open("testRunner.txt") as fp:
     parser.parse(fp)
