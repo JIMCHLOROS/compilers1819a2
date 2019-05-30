@@ -1,5 +1,5 @@
-a = 0101101
-b = 1010101
+a = 0101101 and 01010
+b = 1010101 or 01001 xor 1000
 print a
 print b
 print a or b
