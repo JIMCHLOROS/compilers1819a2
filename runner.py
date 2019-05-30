@@ -9,7 +9,7 @@ class RunError(Exception):
     pass
 
 
-class myParser:
+class myRunner:
 
     def __init__(self):
         DIGIT = plex.Range("09")
@@ -47,14 +47,12 @@ class myParser:
         return self.SCANNER.read()
 
     def match(self, TOKEN):
-        # print(self.LA, TOKEN)
         if self.LA == TOKEN:
             self.LA, self.TEXT = self.next_token()
-            # print(self.LA, self.TEXT)
         else:
             raise ParseError("self.LA not the same as token!")
 
-    def parse(self, fp):
+    def run(self, fp):
         self.create_scanner(fp)
         self.stmt_list()
 
@@ -75,7 +73,7 @@ class myParser:
             self.ST[varname] = self.expr()
         elif self.LA == "print":
             self.match("print")
-            print(self.expr())
+            print('{:b}'.format(self.expr()))
         else:
             raise ParseError("Didnt get what i was expecting!")
 
@@ -94,10 +92,10 @@ class myParser:
 
     def term(self):
         if self.LA in ("(", "id", "binary"):
-            f = self.factor()
+            f = self.atom()
             while self.LA == "or":
                 self.match("or")
-                f2 = self.factor()
+                f2 = self.atom()
                 f |= f2
             if self.LA in ("xor", "id", "print", ")", None):
                 return f
@@ -131,13 +129,13 @@ class myParser:
                 return self.ST[varname]
             raise RunError("Didn't find the value in the Dictionary.")
         elif self.LA == "binary":
-            value = self.TEXT
+            value = int(self.TEXT, 2)
             self.match("binary")
-            return int(value, 2)
+            return value
         else:
             raise ParseError("Didnt get what i was expecting!")
 
 
-parser = myParser()
+runner = myRunner()
 with open("testRunner.txt") as fp:
-    parser.parse(fp)
+    runner.run(fp)

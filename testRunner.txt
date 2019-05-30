@@ -4,3 +4,4 @@ print a
 print b
 print a or b
 print a xor b
+print a and b
